@@ -97,16 +97,9 @@ const keysButtonDOM = document.querySelectorAll('.keyrow button');
     */
     removeLife() {
         this.missed++
-        if (this.missed === 1) {
-            heartTriesHtmlDocumentDOM[0].src = 'images/lostHeart.png';
-        } else if (this.missed === 2) {
-            heartTriesHtmlDocumentDOM[1].src = 'images/lostHeart.png';
-        } else if (this.missed === 3) {
-            heartTriesHtmlDocumentDOM[2].src = 'images/lostHeart.png';
-        } else if (this.missed === 4) {
-            heartTriesHtmlDocumentDOM[3].src = 'images/lostHeart.png';
-        } else if (this.missed === 5) {
-            heartTriesHtmlDocumentDOM[4].src = 'images/lostHeart.png';
+        heartTriesHtmlDocumentDOM[this.missed-1].src = 'images/lostHeart.png';
+        if (this.missed === 5) {
+            heartTriesHtmlDocumentDOM[this.missed-1].src = 'images/lostHeart.png';
             this.gameOver(this.checkForWin());
         }
     };
@@ -130,7 +123,7 @@ const keysButtonDOM = document.querySelectorAll('.keyrow button');
     };
 
     /**
-    * resets the game to its initial state
+    * resets the game after the gameOver method
     **/
     reset() {
         phraseDOMChild.children.innerHTML = '';
