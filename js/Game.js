@@ -105,11 +105,11 @@ const heartTriesHtmlDocumentDOM = document.querySelectorAll('.tries img');
     gameOver(gameWon) {
         if (gameWon) {
             overlayDOM.className = 'win';
-            gameOverMessageDOM.textContent = 'Great job! You got the phrase!';
+            gameOverMessageDOM.innerHTML = `Great job! You got the right phrase: <i>${this.activePhrase.phrase}</i>`;
             overlayDOM.style.visibility = 'visible';
         } else {
             overlayDOM.className = 'lose';
-            gameOverMessageDOM.textContent = `Oh no, the correct phrase was: '${this.activePhrase.phrase}'`;
+            gameOverMessageDOM.innerHTML = `Oh no, the correct phrase was: <i>${this.activePhrase.phrase}</i>`;
             overlayDOM.style.visibility = 'visible';
         }
         this.reset();
