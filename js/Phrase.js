@@ -11,7 +11,6 @@ const phraseHtmlCollectionDOM = document.getElementsByClassName('letter');
 /*************
 * Phrase Class
 **************/
-
 class Phrase {
     constructor(phrase) {
     this.phrase = phrase.toLowerCase();
@@ -51,5 +50,4 @@ class Phrase {
             this.checkLetter(letter) && letter === element.textContent ? element.className = `show letter ${letter}` : null;
         });
     }
-
 }

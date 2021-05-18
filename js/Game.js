@@ -6,9 +6,9 @@
 * Global Variables
 ******************/
 const overlayDOM = document.getElementById('overlay');
-const heartTriesHtmlDocumentDOM = document.querySelectorAll('.tries img');
 const gameOverMessageDOM = document.getElementById('game-over-message');
 const keysButtonDOM = document.querySelectorAll('.keyrow button');
+const heartTriesHtmlDocumentDOM = document.querySelectorAll('.tries img');
 
 /***********
 * Game Class
@@ -62,16 +62,18 @@ const keysButtonDOM = document.querySelectorAll('.keyrow button');
     * @param (HTMLButtonElement) button - The clicked button element
     **/
     handleInteraction(button) {
-        if (this.activePhrase.checkLetter(button.textContent)) {
-            this.activePhrase.showMatchedLetter(button.textContent);
-            button.classList.add('chosen');
-            button.disabled = true;
-            this.checkForWin() ? this.gameOver(true) : null;      
-        } else { 
-            this.removeLife();
-            button.classList.add('wrong');
-            button.disabled = true;
-        }
+        if(button.disabled === false){
+            if (this.activePhrase.checkLetter(button.textContent)) {
+                    this.activePhrase.showMatchedLetter(button.textContent);
+                    button.classList.add('chosen');
+                    button.disabled = true;   
+            } else if (!this.activePhrase.checkLetter(button.textContent)) { 
+                    button.classList.add('wrong');
+                    button.disabled = true;
+                    this.removeLife();
+            }
+            this.checkForWin() ? this.gameOver(true) : null;
+        } 
     };
 
     /**
@@ -79,15 +81,7 @@ const keysButtonDOM = document.querySelectorAll('.keyrow button');
     * @return {boolean} True if game has been won, false if game wasn't won
     **/
     checkForWin() {
-        let isGameWon;
-        Array.from(phraseHtmlCollectionDOM).forEach(element => {
-           if (element.classList.contains('hide')) {
-               isGameWon = false;
-           } else {
-               isGameWon = true;
-           } 
-        });
-        return isGameWon
+        return document.querySelectorAll('.letter').length === document.querySelectorAll('.show').length;
     };
 
     /**
@@ -100,40 +94,38 @@ const keysButtonDOM = document.querySelectorAll('.keyrow button');
         heartTriesHtmlDocumentDOM[this.missed-1].src = 'images/lostHeart.png';
         if (this.missed === 5) {
             heartTriesHtmlDocumentDOM[this.missed-1].src = 'images/lostHeart.png';
-            this.gameOver(this.checkForWin());
+            this.gameOver(false);
         }
     };
 
     /**
-    * Displays game over message
+    * Displays game over message, later resets the game to its initial values.
     * @param {boolean} gameWon - Whether or not the user won the game
     **/
     gameOver(gameWon) {
         if (gameWon) {
             overlayDOM.className = 'win';
-            gameOverMessageDOM.textContent = 'Great job!';
+            gameOverMessageDOM.textContent = 'Great job! You got the phrase!';
             overlayDOM.style.visibility = 'visible';
-            this.reset();
         } else {
             overlayDOM.className = 'lose';
-            gameOverMessageDOM.textContent = 'Sorry, better luck next time!';
+            gameOverMessageDOM.textContent = `Oh no, the correct phrase was: '${this.activePhrase.phrase}'`;
             overlayDOM.style.visibility = 'visible';
-            this.reset();
         }
+        this.reset();
     };
 
     /**
-    * resets the game after the gameOver method
+    * Resets the game after the gameOver method
+    * Items to reset: the missed count, deleting the phrase HTML children, the keys, and the image hearts.
     **/
     reset() {
+        this.missed = 0;
         phraseDOMChild.children.innerHTML = '';
-        
         Array.from(keysButtonDOM).forEach(key => {
-            key.classList.remove('chosen');
-            key.classList.remove('wrong');
             key.disabled = false;
+            key.classList.remove('chosen', 'wrong');
         });
-        
         Array.from(heartTriesHtmlDocumentDOM).forEach(image => {
             image.src = 'images/liveHeart.png';
         });

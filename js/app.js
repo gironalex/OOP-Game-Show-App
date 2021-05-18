@@ -6,7 +6,7 @@
 * Global Variables
 ******************/
 const startGameButton = document.getElementById('btn__reset');
-let game = null;
+let game;
 const keysDOM = document.querySelector('#qwerty');
 
 /************************
@@ -28,5 +28,11 @@ keysDOM.addEventListener('click', (e) => {
 /**************************************
 * Playing the Game w/ Physical Keyboard
 ***************************************/
-
+window.addEventListener('keydown', (e) => {
+    if(game){
+        Array.from(keysButtonDOM).forEach(button => {
+            button.textContent === e.key.toLowerCase() ? game.handleInteraction(button): null;
+        });
+    }
+})
 
