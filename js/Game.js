@@ -123,8 +123,8 @@ const heartTriesHtmlDocumentDOM = document.querySelectorAll('.tries img');
         this.missed = 0;
         phraseDOMChild.children.innerHTML = '';
         Array.from(keysButtonDOM).forEach(key => {
-            key.disabled = false;
             key.classList.remove('chosen', 'wrong');
+            key.disabled = false;
         });
         Array.from(heartTriesHtmlDocumentDOM).forEach(image => {
             image.src = 'images/liveHeart.png';

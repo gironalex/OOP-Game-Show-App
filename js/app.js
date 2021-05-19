@@ -15,7 +15,6 @@ const keysDOM = document.querySelector('#qwerty');
 startGameButton.addEventListener('click', () => {
         game = new Game();
         game.startGame();
-        console.log(game.activePhrase);
 });
 
 /***************************************
@@ -29,7 +28,7 @@ keysDOM.addEventListener('click', (e) => {
 * Playing the Game w/ Physical Keyboard
 ***************************************/
 window.addEventListener('keydown', (e) => {
-    if(game){
+    if(game && overlayDOM.style.visibility == 'hidden'){
         Array.from(keysButtonDOM).forEach(button => {
             button.textContent === e.key.toLowerCase() ? game.handleInteraction(button): null;
         });
